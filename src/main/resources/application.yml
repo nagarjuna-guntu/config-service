@@ -1,6 +1,6 @@
 server:
- port: 8888
- tomcat:
+  port: 8888
+  tomcat:
     connection-timeout: 2s
     keep-alive-timeout: 15s
     threads:
@@ -8,16 +8,34 @@ server:
       min-spare: 5 
 
 spring:
- application:
-  name: config-service
+  application:
+    name: config-service
+  cloud:
+    config:
+      server:
+        git:
+          uri: https://github.com/nagarjuna-guntu/config-repo		
+          default-label: main
+          timeout: 5
+          clone-on-start: true
+          force-pull: true				 
   
- cloud:
-  config:
-   server:
-    git:
-     uri: https://github.com/nagarjuna-guntu/config-repo		
-     default-label: main
-     timeout: 5
-     clone-on-start: true
-     force-pull: true				 
-  
+management:
+  endpoints:
+    web:
+      exposure:
+        include: refresh, health
+  endpoint:
+    health:
+      show-details: always
+      show-components: always
+      probes:
+        enabled: true
+  metrics:
+    tags:
+      application: ${spring.application.name}
+      
+logging:
+  pattern:
+    correlation: "%clr([${spring.application.name:},%X{traceId:-},%X{spanId:-}]){blue} "
+  include-application-name: false 
