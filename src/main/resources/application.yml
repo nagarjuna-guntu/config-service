@@ -17,8 +17,8 @@ spring:
           uri: https://github.com/nagarjuna-guntu/config-repo		
           default-label: main
           timeout: 5
-          clone-on-start: true
-          force-pull: true				 
+          clone-on-start: true #clone the repo on strat instead at first request served
+          force-pull: true	#fresh copy is pulled whenever the local copy is corrupted, and any local changes are discarded.			 
 info: 
   system: Polar Bookshop
     
